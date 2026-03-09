@@ -1,0 +1,20 @@
+---
+/**
+ * Countdown component - shell rendered at build time,
+ * actual countdown logic in countdown-island.ts
+ */
+---
+
+<section class="countdown-section" id="countdown-section">
+  <div class="countdown-label" id="countdown-label">İftara Kalan Süre</div>
+  <div class="countdown-city" id="countdown-city">İstanbul</div>
+  <div class="countdown-timer" id="countdown-timer">
+    <span class="hours">--</span><span class="sep">:</span><span class="minutes">--</span><span class="sep">:</span><span class="seconds">--</span>
+  </div>
+  <div class="countdown-date" id="countdown-date"></div>
+  <div class="countdown-bayram" id="countdown-bayram">
+    Ramazan Bayramınız Mübarek Olsun 🌙
+  </div>
+</section>
+
+<script src="../islands/countdown-island.ts"></script>

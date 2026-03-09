@@ -1,0 +1,51 @@
+---
+/**
+ * Prayer times table - initially rendered with İstanbul data,
+ * updated client-side when city changes.
+ */
+import istanbulData from '../data/ramadan/9541.json';
+
+const days = istanbulData.days;
+const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Istanbul' });
+---
+
+<section class="prayer-table-section" id="prayer-table-section">
+  <h2>Namaz Vakitleri — <span id="table-city-name">İstanbul</span></h2>
+  <div class="prayer-table-wrapper">
+    <table class="prayer-table" id="prayer-table">
+      <thead>
+        <tr>
+          <th>Gün</th>
+          <th>Tarih</th>
+          <th>İmsak</th>
+          <th>Güneş</th>
+          <th>Öğle</th>
+          <th>İkindi</th>
+          <th>İftar</th>
+          <th>Yatsı</th>
+        </tr>
+      </thead>
+      <tbody id="prayer-table-body">
+        {days.map((day: any) => {
+          const isToday = day.date === today;
+          const isPast = day.date < today;
+          const rowClass = isToday ? 'today' : isPast ? 'past' : '';
+          return (
+            <tr class={rowClass} data-date={day.date}>
+              <td>{day.ramadanDay}</td>
+              <td>{new Date(day.date + 'T12:00:00+03:00').toLocaleDateString('tr-TR', { day: 'numeric', month: 'short', timeZone: 'Europe/Istanbul' })}</td>
+              <td>{day.imsak}</td>
+              <td>{day.gunes}</td>
+              <td>{day.ogle}</td>
+              <td>{day.ikindi}</td>
+              <td>{day.aksam}</td>
+              <td>{day.yatsi}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<script src="../islands/table-highlight-island.ts"></script>

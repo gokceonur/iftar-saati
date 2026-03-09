@@ -1,0 +1,393 @@
+/* ===== CSS Custom Properties ===== */
+:root {
+  --bg-primary: #0f1117;
+  --bg-secondary: #1a1d27;
+  --bg-card: #1e2130;
+  --bg-highlight: rgba(212, 167, 98, 0.08);
+
+  --text-primary: #e8e6e3;
+  --text-secondary: #9b9a97;
+  --text-muted: #5c5b58;
+
+  --accent-gold: #d4a762;
+  --accent-gold-dim: rgba(212, 167, 98, 0.3);
+  --accent-green: #4ade80;
+  --accent-green-dim: rgba(74, 222, 128, 0.15);
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Reset ===== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== Top Banner ===== */
+.top-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid rgba(212, 167, 98, 0.15);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.banner-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.ramadan-day {
+  font-size: 0.9rem;
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+.banner-city {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* ===== Carousel ===== */
+.carousel-wrapper {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 4px 0;
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-item {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.carousel-item .city-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.carousel-item .city-time {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+}
+
+.carousel-item.done {
+  border-color: var(--accent-green-dim);
+}
+
+.carousel-item.done .city-name::after {
+  content: ' ✓';
+  color: var(--accent-green);
+  font-size: 0.65rem;
+}
+
+.carousel-item.next {
+  border-color: var(--accent-gold);
+  background: var(--bg-highlight);
+}
+
+.carousel-item.next .city-name {
+  color: var(--accent-gold);
+}
+
+/* ===== Main Content ===== */
+.main-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+/* ===== Countdown Section ===== */
+.countdown-section {
+  text-align: center;
+  padding: 48px 0 32px;
+}
+
+.countdown-label {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.countdown-city {
+  font-size: 0.85rem;
+  color: var(--accent-gold);
+  margin-bottom: 16px;
+}
+
+.countdown-timer {
+  font-family: var(--font-mono);
+  font-size: 4.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+  line-height: 1;
+  margin-bottom: 16px;
+  text-shadow: 0 0 40px rgba(212, 167, 98, 0.15);
+}
+
+.countdown-timer .sep {
+  color: var(--accent-gold-dim);
+  margin: 0 2px;
+}
+
+.countdown-date {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.countdown-bayram {
+  font-size: 1.5rem;
+  color: var(--accent-gold);
+  font-weight: 600;
+  padding: 32px 0;
+  display: none;
+}
+
+/* ===== City Selector ===== */
+.city-selector {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.city-select {
+  appearance: none;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--accent-gold-dim);
+  border-radius: var(--radius-md);
+  padding: 10px 40px 10px 16px;
+  font-size: 0.9rem;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23d4a762' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+
+.city-select:hover,
+.city-select:focus {
+  border-color: var(--accent-gold);
+}
+
+/* ===== Prayer Table ===== */
+.prayer-table-section {
+  margin-top: 16px;
+}
+
+.prayer-table-section h2 {
+  font-size: 1rem;
+  color: var(--accent-gold);
+  margin-bottom: 16px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.prayer-table-wrapper {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 50vh;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.prayer-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.prayer-table thead {
+  background: var(--bg-card);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.prayer-table th {
+  padding: 10px 12px;
+  text-align: center;
+  color: var(--accent-gold);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.prayer-table td {
+  padding: 8px 12px;
+  text-align: center;
+  color: var(--text-secondary);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.prayer-table td:first-child,
+.prayer-table td:nth-child(2) {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+}
+
+.prayer-table td:first-child {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.prayer-table tbody tr {
+  transition: background 0.2s;
+}
+
+.prayer-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Today row */
+.prayer-table tbody tr.today {
+  background: var(--bg-highlight);
+  border-left: 3px solid var(--accent-gold);
+}
+
+.prayer-table tbody tr.today td {
+  color: var(--text-primary);
+}
+
+/* Past rows */
+.prayer-table tbody tr.past td {
+  color: var(--text-muted);
+}
+
+/* ===== Footer ===== */
+.site-footer {
+  text-align: center;
+  padding: 24px 16px;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.site-footer a {
+  color: var(--accent-gold-dim);
+  text-decoration: none;
+}
+
+/* ===== Loading State ===== */
+.loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .top-banner {
+    padding: 10px 16px;
+  }
+
+  .countdown-timer {
+    font-size: 3rem;
+  }
+
+  .countdown-section {
+    padding: 32px 0 24px;
+  }
+
+  .prayer-table {
+    font-size: 0.75rem;
+  }
+
+  .prayer-table th,
+  .prayer-table td {
+    padding: 6px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .countdown-timer {
+    font-size: 2.4rem;
+  }
+
+  .top-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .carousel-wrapper {
+    width: 100%;
+  }
+
+  .prayer-table th,
+  .prayer-table td {
+    padding: 5px 6px;
+    font-size: 0.7rem;
+  }
+}
+
+/* ===== Animations ===== */
+@keyframes pulse-glow {
+  0%, 100% { text-shadow: 0 0 40px rgba(212, 167, 98, 0.15); }
+  50% { text-shadow: 0 0 60px rgba(212, 167, 98, 0.25); }
+}
+
+.countdown-timer {
+  animation: pulse-glow 3s ease-in-out infinite;
+}

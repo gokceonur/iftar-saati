@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import TopBanner from '../components/TopBanner.astro';
+import Countdown from '../components/Countdown.astro';
+import CitySelector from '../components/CitySelector.astro';
+import PrayerTable from '../components/PrayerTable.astro';
+---
+
+<Layout>
+  <TopBanner />
+
+  <main class="main-content">
+    <Countdown />
+    <CitySelector />
+    <PrayerTable />
+  </main>
+
+  <footer class="site-footer">
+    <p>Veriler Diyanet İşleri Başkanlığı'ndan alınmıştır. Ramazan 1447 / 2026</p>
+  </footer>
+</Layout>

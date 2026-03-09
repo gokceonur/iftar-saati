@@ -1,0 +1,31 @@
+---
+interface CityItem {
+  id: string;
+  name: string;
+  imsak: string;
+  aksam: string;
+}
+
+interface Props {
+  cities: CityItem[];
+}
+
+const { cities } = Astro.props;
+---
+
+<div class="carousel-wrapper">
+  <div class="carousel-track" id="carousel-track">
+    {cities.map((city) => (
+      <div
+        class="carousel-item"
+        data-city-id={city.id}
+        data-aksam={city.aksam}
+      >
+        <div class="city-name">{city.name}</div>
+        <div class="city-time">{city.aksam}</div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<script src="../islands/carousel-island.ts"></script>

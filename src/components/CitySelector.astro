@@ -1,0 +1,20 @@
+---
+import { cityCoordinates } from '../lib/city-coordinates';
+
+// Sort cities alphabetically for the dropdown
+const sortedCities = [...cityCoordinates].sort((a, b) =>
+  a.name.localeCompare(b.name, 'tr')
+);
+---
+
+<div class="city-selector">
+  <select class="city-select" id="city-select">
+    {sortedCities.map((city) => (
+      <option value={city.id} selected={city.id === '9541'}>
+        {city.name}
+      </option>
+    ))}
+  </select>
+</div>
+
+<script src="../islands/city-selector-island.ts"></script>

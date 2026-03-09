@@ -1,0 +1,33 @@
+---
+/**
+ * Top banner: Ramadan day info + iftar carousel
+ * The actual dynamic content is managed by carousel-island.ts
+ */
+import IftarCarousel from './IftarCarousel.astro';
+
+// Import all data at build time
+import ramadanAll from '../data/ramadan-all.json';
+
+// Calculate current Ramadan day (build-time approximation, island updates client-side)
+const RAMADAN_START = '2026-02-19';
+const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Istanbul' });
+
+function getRamadanDay(dateStr: string): number {
+  const date = new Date(dateStr + 'T12:00:00+03:00');
+  const start = new Date(RAMADAN_START + 'T12:00:00+03:00');
+  return Math.floor((date.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+}
+
+const ramadanDay = getRamadanDay(today);
+const todayData = ramadanAll.find((d: any) => d.date === today);
+---
+
+<div class="top-banner">
+  <div class="banner-info">
+    <span class="ramadan-day" id="ramadan-day-text">
+      Ramazan'ın {ramadanDay}. Günü
+    </span>
+    <span class="banner-city" id="banner-city-text">İstanbul</span>
+  </div>
+  {todayData && <IftarCarousel cities={todayData.cities} />}
+</div>
