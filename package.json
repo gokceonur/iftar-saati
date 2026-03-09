@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run fetch-data && astro build",
+    "build": "astro build",
     "preview": "astro preview",
     "fetch-data": "npx tsx scripts/fetch-data.ts",
     "astro": "astro"

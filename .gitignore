@@ -7,10 +7,8 @@ dist/
 # Astro
 .astro/
 
-# Generated data (rebuild with: npm run fetch-data)
-src/data/ramadan-all.json
-src/data/ramadan/
-public/data/
+# Cache files from fetch-data script
+src/data/cache/
 
 # Environment
 .env
