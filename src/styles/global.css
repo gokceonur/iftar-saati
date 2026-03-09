@@ -86,6 +86,15 @@ body {
   position: relative;
 }
 
+.carousel-mode-label {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+  padding-left: 2px;
+}
+
 .carousel-track {
   display: flex;
   gap: 8px;

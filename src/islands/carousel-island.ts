@@ -1,7 +1,8 @@
 /**
- * Carousel Island - Highlights cities based on iftar status
+ * Carousel Island - Highlights cities based on iftar/sahur status
  * - Done cities: green checkmark
  * - Next city: gold highlight, scrolled into view
+ * - After all iftars + 1 hour: switches to sahur mode showing tomorrow's imsak times
  */
 
 function getTurkeyNow(): Date {
@@ -17,19 +18,42 @@ function getTurkeyTimeStr(): string {
   return `${h}:${m}`;
 }
 
-function updateCarousel() {
-  const track = document.getElementById('carousel-track');
-  if (!track) return;
+function isSahurMode(currentTime: string, lastAksam: string): boolean {
+  if (!lastAksam) return false;
 
+  const currentHour = parseInt(currentTime.slice(0, 2), 10);
+
+  // Midnight to 05:59 → automatically sahur mode (past threshold from previous evening)
+  if (currentHour < 6) return true;
+
+  // Calculate threshold: lastAksam + 1 hour
+  const [h, m] = lastAksam.split(':').map(Number);
+  const thresholdMinutes = h * 60 + m + 60;
+  const thresholdH = String(Math.floor(thresholdMinutes / 60) % 24).padStart(2, '0');
+  const thresholdM = String(thresholdMinutes % 60).padStart(2, '0');
+  const threshold = `${thresholdH}:${thresholdM}`;
+
+  return currentTime >= threshold;
+}
+
+function scrollNextIntoView(nextItem: HTMLElement) {
+  const track = nextItem.parentElement;
+  if (!track) return;
+  const trackRect = track.getBoundingClientRect();
+  const itemRect = nextItem.getBoundingClientRect();
+  const scrollLeft = track.scrollLeft + (itemRect.left - trackRect.left) - trackRect.width / 2 + itemRect.width / 2;
+  track.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+}
+
+function updateTrack(track: HTMLElement, timeAttr: string, currentTime: string) {
   const items = track.querySelectorAll<HTMLElement>('.carousel-item');
-  const currentTime = getTurkeyTimeStr();
   let nextItem: HTMLElement | null = null;
 
   items.forEach(item => {
-    const aksam = item.dataset.aksam || '';
+    const time = item.dataset[timeAttr] || '';
     item.classList.remove('done', 'next');
 
-    if (aksam <= currentTime) {
+    if (time <= currentTime) {
       item.classList.add('done');
     } else if (!nextItem) {
       nextItem = item;
@@ -37,21 +61,42 @@ function updateCarousel() {
     }
   });
 
-  // Scroll next item into view
   if (nextItem) {
-    const track = nextItem.parentElement;
-    if (track) {
-      const trackRect = track.getBoundingClientRect();
-      const itemRect = (nextItem as HTMLElement).getBoundingClientRect();
-      const scrollLeft = track.scrollLeft + (itemRect.left - trackRect.left) - trackRect.width / 2 + itemRect.width / 2;
-      track.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+    scrollNextIntoView(nextItem);
+  }
+}
+
+function updateCarousel() {
+  const wrapper = document.querySelector<HTMLElement>('.carousel-wrapper');
+  if (!wrapper) return;
+
+  const lastAksam = wrapper.dataset.lastAksam || '';
+  const currentTime = getTurkeyTimeStr();
+  const sahur = isSahurMode(currentTime, lastAksam);
+
+  const iftarTrack = document.getElementById('carousel-track');
+  const sahurTrack = document.getElementById('carousel-track-sahur');
+  const modeLabel = document.getElementById('carousel-mode-label');
+
+  if (sahur && sahurTrack) {
+    // Sahur mode
+    if (iftarTrack) iftarTrack.style.display = 'none';
+    sahurTrack.style.display = 'flex';
+    if (modeLabel) modeLabel.textContent = 'Sahur Saatleri';
+    updateTrack(sahurTrack, 'imsak', currentTime);
+  } else {
+    // Iftar mode
+    if (iftarTrack) {
+      iftarTrack.style.display = 'flex';
+      updateTrack(iftarTrack, 'aksam', currentTime);
     }
+    if (sahurTrack) sahurTrack.style.display = 'none';
+    if (modeLabel) modeLabel.textContent = 'İftar Saatleri';
   }
 }
 
 function init() {
   updateCarousel();
-  // Update every 30 seconds
   setInterval(updateCarousel, 30000);
 }
 

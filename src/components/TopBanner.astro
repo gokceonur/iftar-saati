@@ -20,6 +20,22 @@ function getRamadanDay(dateStr: string): number {
 
 const ramadanDay = getRamadanDay(today);
 const todayData = ramadanAll.find((d: any) => d.date === today);
+
+// Tomorrow's data for sahur mode
+const todayDate = new Date(today + 'T12:00:00+03:00');
+todayDate.setDate(todayDate.getDate() + 1);
+const tomorrow = todayDate.toISOString().slice(0, 10);
+const tomorrowData = ramadanAll.find((d: any) => d.date === tomorrow);
+
+// Sahur cities: tomorrow's cities sorted by imsak (earliest first)
+const sahurCities = tomorrowData
+  ? [...tomorrowData.cities].sort((a, b) => a.imsak.localeCompare(b.imsak))
+  : [];
+
+// Last aksam time today (latest iftar = transition threshold base)
+const lastAksam = todayData
+  ? todayData.cities.reduce((max: string, c: any) => c.aksam > max ? c.aksam : max, '00:00')
+  : '';
 ---
 
 <div class="top-banner">
@@ -29,5 +45,5 @@ const todayData = ramadanAll.find((d: any) => d.date === today);
     </span>
     <span class="banner-city" id="banner-city-text">İstanbul</span>
   </div>
-  {todayData && <IftarCarousel cities={todayData.cities} />}
+  {todayData && <IftarCarousel cities={todayData.cities} sahurCities={sahurCities} lastAksam={lastAksam} />}
 </div>

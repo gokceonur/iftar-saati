@@ -8,12 +8,15 @@ interface CityItem {
 
 interface Props {
   cities: CityItem[];
+  sahurCities: CityItem[];
+  lastAksam: string;
 }
 
-const { cities } = Astro.props;
+const { cities, sahurCities, lastAksam } = Astro.props;
 ---
 
-<div class="carousel-wrapper">
+<div class="carousel-wrapper" data-last-aksam={lastAksam}>
+  <div class="carousel-mode-label" id="carousel-mode-label">İftar Saatleri</div>
   <div class="carousel-track" id="carousel-track">
     {cities.map((city) => (
       <div
@@ -26,6 +29,20 @@ const { cities } = Astro.props;
       </div>
     ))}
   </div>
+  {sahurCities.length > 0 && (
+    <div class="carousel-track" id="carousel-track-sahur" style="display:none">
+      {sahurCities.map((city) => (
+        <div
+          class="carousel-item"
+          data-city-id={city.id}
+          data-imsak={city.imsak}
+        >
+          <div class="city-name">{city.name}</div>
+          <div class="city-time">{city.imsak}</div>
+        </div>
+      ))}
+    </div>
+  )}
 </div>
 
 <script src="../islands/carousel-island.ts"></script>
